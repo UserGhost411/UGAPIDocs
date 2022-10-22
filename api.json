@@ -1,0 +1,93 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "UserGhost411 API Free",
+        "version": "1.0.6",
+        "title": "UserGhost411 API",
+        "termsOfService": "-",
+        "contact": {
+            "email": "admin@userghost.my,id"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "api.userghost.my.id",
+    "basePath": "",
+    "tags": [],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/covid": {
+            "get": {
+                "tags": [],
+                "summary": "get global covid 19 statistic information",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {},
+                "security": [ ]
+            }
+        },
+        "/covid/countrys/{countrysCode}": {
+            "get": {
+                "tags": [],
+                "summary": "get covid 19 statistic information from various country (limited by 25 country)",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "countrysCode",
+                        "in": "path",
+                        "description": "Country ID , example: ```indonesia-us-singapore```",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": [ ]
+            }
+        },
+        "/covid/country/{countryCode}": {
+            "get": {
+                "tags": [],
+                "summary": "get covid 19 statistic information by country code",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "countryCode",
+                        "in": "path",
+                        "description": "Country ID , example: ```indonesia```",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": [ ]
+            }
+        }
+    },
+    "securityDefinitions": {
+       
+    },
+    "definitions": {
+      
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}
