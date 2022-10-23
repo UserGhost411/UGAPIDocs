@@ -13,8 +13,8 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "preview.userghost.xyz/ugapi",
-    "hosta": "api.userghost.my.id",
+    "hosta": "preview.userghost.xyz/ugapi",
+    "host": "api.userghost.my.id",
     "basePath": "",
     "tags": [],
     "schemes": [
