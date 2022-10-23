@@ -1048,7 +1048,7 @@
         }
     },
     "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
+        "description": "Find out more about UGAPIDocs",
+        "url": "https://github.com/UserGhost411/UGAPIDocs"
     }
 }

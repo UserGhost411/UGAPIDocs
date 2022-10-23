@@ -55,7 +55,6 @@ $(window).on('load', function () {
                                 <p>${endpoint_methods[method].summary}</p>
                                 ${converter.makeHtml(endpoint_methods[method].description)}
                             </div>
-                            
                             <table class="table">
                             <thead>
                               <tr>
@@ -90,12 +89,14 @@ $(window).on('load', function () {
     }
     $("#api_endpoints").on('click', '.tryapi', function () {
         let endpoint_index = $(this).attr("attr-api-index");
-
         $("#myModal").modal("show")
         $(".ajaxloader").hide();
         $('#nav_custom_param').trigger('click')
+        let api_schema = $("#api_schema").val();
         let endpoint_data = apiconfig.parsed.endpoints[endpoint_index];
+        $('#url_param_modal').val(`${api_schema}://${endpoint_data.host}${endpoint_data.endpoint}`)
         $("#param_modal_tb").html(`<input type='hidden' name='_index_api' value='${endpoint_index}'>`)
+        $("#try-api-method").attr("class", `btn btn-success try-method ${endpoint_data.method} px-2`)
         for (const param of endpoint_data.parameters) {
             $("#param_modal_tb").append(`<tr>
                 <td>
@@ -157,16 +158,37 @@ $(window).on('load', function () {
         }
         if (inquery.length) newurl += `?${new URLSearchParams(inquery).toString()}`
         $(".ajaxloader").show();
+        $("#param_modal_head_res").html(``);
         $.ajax({
             url: `${api_schema}://${apihost}${newurl}`,
             data: formdata,
             processData: false,
             type: endpoint_data.method,
-            cache: false
+            cache: false,
         }).done(function (data, status, jqXHR) {
-            $("#text_resp_modal").val(JSON.stringify(data, null, 2));
+            try{
+                $("#text_resp_modal").val(JSON.stringify(data, null, 2));
+            } catch(err){
+                $("#text_resp_modal").val(data);
+            }
+            $("#param_modal_head_res").append(`<tr><td>status</td><td>${jqXHR.status} ${jqXHR.statusText.trim()}</td></tr>`)
+            for (const headraw of jqXHR.getAllResponseHeaders().split("\n")) {
+                if (!headraw.trim()) continue;
+                let head = headraw.split(": ");
+                $("#param_modal_head_res").append(`<tr><td>${head[0].trim()}</td><td>${head[1].trim()}</td></tr>`)
+            }
         }).fail(function (jqXHR, status) {
-            $("#text_resp_modal").val(JSON.stringify(jqXHR, null, 2));
+            try{
+                $("#text_resp_modal").val(((jqXHR.status > 0) ? JSON.stringify(JSON.parse(jqXHR.responseText), null, 2) : status));
+            } catch(err){
+                $("#text_resp_modal").val(((jqXHR.status > 0) ? jqXHR.responseText : status));
+            }
+            $("#param_modal_head_res").append(`<tr><td>status</td><td>${jqXHR.status} ${jqXHR.statusText.trim()}</td></tr>`)
+            for (const headraw of jqXHR.getAllResponseHeaders().split("\n")) {
+                if (!headraw.trim()) continue;
+                let head = headraw.split(": ");
+                $("#param_modal_head_res").append(`<tr><td>${head[0].trim()}</td><td>${head[1].trim()}</td></tr>`)
+            }
         }).always(function () {
             $(".ajaxloader").hide();
         });

@@ -13,7 +13,8 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "api.userghost.my.id",
+    "host": "preview.userghost.xyz/ugapi",
+    "hosta": "api.userghost.my.id",
     "basePath": "",
     "tags": [],
     "schemes": [
@@ -87,7 +88,7 @@
       
     },
     "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
+        "description": "Find out more about UGAPIDocs",
+        "url": "https://github.com/UserGhost411/UGAPIDocs"
     }
 }
