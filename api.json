@@ -33,7 +33,21 @@
                 ],
                 "parameters": [],
                 "responses": {},
-                "security": [ ]
+                "security": []
+            }
+        },
+        "/covid/countries": {
+            "get": {
+                "tags": [],
+                "summary": "get all country name & country code",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {},
+                "security": []
             }
         },
         "/covid/countrys/{countrysCode}": {
@@ -55,7 +69,7 @@
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
         "/covid/country/{countryCode}": {
@@ -77,16 +91,12 @@
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         }
     },
-    "securityDefinitions": {
-       
-    },
-    "definitions": {
-      
-    },
+    "securityDefinitions": {},
+    "definitions": {},
     "externalDocs": {
         "description": "Find out more about UGAPIDocs",
         "url": "https://github.com/UserGhost411/UGAPIDocs"
