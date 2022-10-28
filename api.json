@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "description": "UserGhost411 API Free",
-        "version": "1.0.6",
+        "version": "1.0.7",
         "title": "UserGhost411 API",
         "termsOfService": "-",
         "contact": {
@@ -16,7 +16,16 @@
     "hosta": "preview.userghost.xyz/ugapi",
     "host": "api.userghost.my.id",
     "basePath": "",
-    "tags": [],
+    "tags": [
+        {
+            "name": "covid",
+            "description": "Access Statistic Information WorldWide about COVID-19 pandemic"
+        },
+        {
+            "name": "package",
+            "description": "Global Package Tracking API"
+        }
+    ],
     "schemes": [
         "https",
         "http"
@@ -24,7 +33,9 @@
     "paths": {
         "/covid": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "covid"
+                ],
                 "summary": "get global covid 19 statistic information",
                 "description": "",
                 "operationId": "get",
@@ -33,12 +44,14 @@
                 ],
                 "parameters": [],
                 "responses": {},
-                "security": []
+                "security": [ ]
             }
         },
         "/covid/countries": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "covid"
+                ],
                 "summary": "get all country name & country code",
                 "description": "",
                 "operationId": "get",
@@ -47,12 +60,14 @@
                 ],
                 "parameters": [],
                 "responses": {},
-                "security": []
+                "security": [ ]
             }
         },
         "/covid/countrys/{countrysCode}": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "covid"
+                ],
                 "summary": "get covid 19 statistic information from various country (limited by 25 country)",
                 "description": "",
                 "operationId": "get",
@@ -69,12 +84,14 @@
                     }
                 ],
                 "responses": {},
-                "security": []
+                "security": [ ]
             }
         },
         "/covid/country/{countryCode}": {
             "get": {
-                "tags": [],
+                "tags": [
+                    "covid"
+                ],
                 "summary": "get covid 19 statistic information by country code",
                 "description": "",
                 "operationId": "get",
@@ -91,12 +108,65 @@
                     }
                 ],
                 "responses": {},
-                "security": []
+                "security": [ ]
+            }
+        },
+        "/track/package/{trackingNumber}": {
+            "get": {
+                "tags": [
+                    "package",
+                    "covid"
+                ],
+                "summary": "get Package Tracking Information by Package Tracking Number",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "trackingNumber",
+                        "in": "path",
+                        "description": "Package Tracking Number , example: ```540500011882622```",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": [ ]
+            }
+        },
+        "/track/packages/{trackingNumbers}": {
+            "get": {
+                "tags": [
+                    "package"
+                ],
+                "summary": "get Multiple Package Tracking Information by Package Tracking Number (max 10)",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "trackingNumbers",
+                        "in": "path",
+                        "description": "Package Tracking Number split by ```-```, example: ```540500011882622-SM70432046998342158```",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": [ ]
             }
         }
     },
-    "securityDefinitions": {},
-    "definitions": {},
+    "securityDefinitions": {
+       
+    },
+    "definitions": {
+      
+    },
     "externalDocs": {
         "description": "Find out more about UGAPIDocs",
         "url": "https://github.com/UserGhost411/UGAPIDocs"
