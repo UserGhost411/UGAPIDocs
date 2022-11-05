@@ -90,7 +90,8 @@ $(window).on('load', function () {
                             <p>${data.summary}</p>
                             ${converter.makeHtml(data.description)}
                         </div>
-                        <table class="table">
+                    <div class="table-responsive">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Parameters</th>
@@ -101,6 +102,7 @@ $(window).on('load', function () {
                         </thead>
                         <tbody id="ep_vars${unique_hash}"></tbody>
                     </table>
+                    </div>
                     </div>
                 </div>
             </div>

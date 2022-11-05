@@ -16,6 +16,10 @@
     "hosta": "preview.userghost.xyz/ugapi",
     "host": "api.userghost.my.id",
     "basePath": "",
+    "schemes": [
+        "https",
+        "http"
+    ],
     "tags": [
         {
             "name": "covid",
@@ -24,11 +28,15 @@
         {
             "name": "package",
             "description": "Global Package Tracking API"
+        },
+        {
+            "name": "nonton",
+            "description": "Get Movie Schedule from jadwalnonton.com"
+        },
+        {
+            "name": "image",
+            "description": "Image Editing Tools"
         }
-    ],
-    "schemes": [
-        "https",
-        "http"
     ],
     "paths": {
         "/covid": {
@@ -44,7 +52,7 @@
                 ],
                 "parameters": [],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
         "/covid/countries": {
@@ -60,7 +68,7 @@
                 ],
                 "parameters": [],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
         "/covid/countrys/{countrysCode}": {
@@ -84,7 +92,7 @@
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
         "/covid/country/{countryCode}": {
@@ -108,16 +116,15 @@
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
-        "/track/package/{trackingNumber}": {
+        "/track/package/{trackingNumber}/{provider}": {
             "get": {
                 "tags": [
-                    "package",
-                    "covid"
+                    "package"
                 ],
-                "summary": "get Package Tracking Information by Package Tracking Number",
+                "summary": "get Package Tracking Information by Package Tracking Number (Auto search Data Provider)",
                 "description": "",
                 "operationId": "get",
                 "produces": [
@@ -128,12 +135,35 @@
                         "name": "trackingNumber",
                         "in": "path",
                         "description": "Package Tracking Number , example: ```540500011882622```",
-                        "required": false,
+                        "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "Package Courier / Data Provider (leave empty for automatic search)",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "",
+                                "jne",
+                                "jnt",
+                                "sicepat",
+                                "anteraja",
+                                "jx",
+                                "sap",
+                                "sc",
+                                "lalamove"
+                            ],
+                            "default": "available"
+                        },
+                        "collectionFormat": "multi"
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
             }
         },
         "/track/packages/{trackingNumbers}": {
@@ -152,21 +182,387 @@
                         "name": "trackingNumbers",
                         "in": "path",
                         "description": "Package Tracking Number split by ```-```, example: ```540500011882622-SM70432046998342158```",
-                        "required": false,
+                        "required": true,
                         "type": "string"
                     }
                 ],
                 "responses": {},
-                "security": [ ]
+                "security": []
+            }
+        },
+        "/nonton": {
+            "get": {
+                "tags": [
+                    "nonton"
+                ],
+                "summary": "get trending and primiers movie",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {},
+                "security": []
+            }
+        },
+        "/nonton/search/{movieName}": {
+            "get": {
+                "tags": [
+                    "nonton"
+                ],
+                "summary": "Search movies by Name",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "movieName",
+                        "in": "path",
+                        "description": "String of Movie Name, example: ```black adam```",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": []
+            }
+        },
+        "/nonton/detail/{movieID}": {
+            "get": {
+                "tags": [
+                    "nonton"
+                ],
+                "summary": "get movie Details",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "movieID",
+                        "in": "path",
+                        "description": "ID of a Movie (findable via search), example: ```2022-hello-ghost```",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {},
+                "security": []
+            }
+        },
+        "/nonton/schedule/{movieID}/{location}": {
+            "get": {
+                "tags": [
+                    "nonton"
+                ],
+                "summary": "get movie Details with schedule",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "movieID",
+                        "in": "path",
+                        "description": "ID of a Movie (findable via search), example: ```2022-black-adam```",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "path",
+                        "description": "Name a City or place on Indonesia, example: ```tegal```",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Ambon",
+                                "Bali",
+                                "Balikpapan",
+                                "Bandung",
+                                "Bangka",
+                                "Banjar",
+                                "Banjarbaru",
+                                "Banjarmasin",
+                                "Banyuwangi",
+                                "Batam",
+                                "Batu",
+                                "Baturaja",
+                                "Bau Bau",
+                                "Bekasi",
+                                "Bengkulu",
+                                "Binjai",
+                                "Bitung",
+                                "Blitar",
+                                "Bogor",
+                                "Bojonegoro",
+                                "Bondowoso",
+                                "Bone",
+                                "Ciamis",
+                                "Cikarang",
+                                "Cilacap",
+                                "Cilegon",
+                                "Cirebon",
+                                "Demak",
+                                "Depok",
+                                "Duri",
+                                "Garut",
+                                "Gorontalo",
+                                "Gresik",
+                                "Jakarta",
+                                "Jambi",
+                                "Jayapura",
+                                "Jember",
+                                "Jombang",
+                                "Karawang",
+                                "Kediri",
+                                "Kendari",
+                                "Ketapang",
+                                "Kolaka",
+                                "Kotabaru",
+                                "Kudus",
+                                "Kupang",
+                                "Lahat",
+                                "Lamongan",
+                                "Lampung",
+                                "Lebak",
+                                "Lombok",
+                                "Lubuk Linggau",
+                                "Lumajang",
+                                "Madiun",
+                                "Magelang",
+                                "Makassar",
+                                "Malang",
+                                "Manado",
+                                "Manokwari",
+                                "Medan",
+                                "Mojokerto",
+                                "Nganjuk",
+                                "Ngawi",
+                                "Padang",
+                                "Palangkaraya",
+                                "Palembang",
+                                "Palopo",
+                                "Palu",
+                                "Pangkal Pinang",
+                                "Pasuruan",
+                                "Pati",
+                                "Pekalongan",
+                                "Pekanbaru",
+                                "Pematang Siantar",
+                                "Ponorogo",
+                                "Pontianak",
+                                "Poso",
+                                "Prabumulih",
+                                "Probolinggo",
+                                "Purbalingga",
+                                "Purwakarta",
+                                "Purwokerto",
+                                "Salatiga",
+                                "Samarinda",
+                                "Sampit",
+                                "Semarang",
+                                "Serang",
+                                "Sidoarjo",
+                                "Singkawang",
+                                "Solo",
+                                "Sorong",
+                                "Subang",
+                                "Sukabumi",
+                                "Sumenep",
+                                "Surabaya",
+                                "Tangerang",
+                                "Tanjung Pinang",
+                                "Tasikmalaya",
+                                "Tegal",
+                                "Temanggung",
+                                "Ternate",
+                                "Trenggalek",
+                                "Tuban",
+                                "Tulungagung",
+                                "Wajo",
+                                "Yogyakarta"
+                            ],
+                            "default": "available"
+                        }
+                    }
+                ],
+                "responses": {},
+                "security": []
+            }
+        },
+        "/nonton/at/{location}": {
+            "get": {
+                "tags": [
+                    "nonton"
+                ],
+                "summary": "get movie that playing at provided location",
+                "description": "",
+                "operationId": "get",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "location",
+                        "in": "path",
+                        "description": "Name a City or place on Indonesia, example: ```tegal```",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Ambon",
+                                "Bali",
+                                "Balikpapan",
+                                "Bandung",
+                                "Bangka",
+                                "Banjar",
+                                "Banjarbaru",
+                                "Banjarmasin",
+                                "Banyuwangi",
+                                "Batam",
+                                "Batu",
+                                "Baturaja",
+                                "Bau Bau",
+                                "Bekasi",
+                                "Bengkulu",
+                                "Binjai",
+                                "Bitung",
+                                "Blitar",
+                                "Bogor",
+                                "Bojonegoro",
+                                "Bondowoso",
+                                "Bone",
+                                "Ciamis",
+                                "Cikarang",
+                                "Cilacap",
+                                "Cilegon",
+                                "Cirebon",
+                                "Demak",
+                                "Depok",
+                                "Duri",
+                                "Garut",
+                                "Gorontalo",
+                                "Gresik",
+                                "Jakarta",
+                                "Jambi",
+                                "Jayapura",
+                                "Jember",
+                                "Jombang",
+                                "Karawang",
+                                "Kediri",
+                                "Kendari",
+                                "Ketapang",
+                                "Kolaka",
+                                "Kotabaru",
+                                "Kudus",
+                                "Kupang",
+                                "Lahat",
+                                "Lamongan",
+                                "Lampung",
+                                "Lebak",
+                                "Lombok",
+                                "Lubuk Linggau",
+                                "Lumajang",
+                                "Madiun",
+                                "Magelang",
+                                "Makassar",
+                                "Malang",
+                                "Manado",
+                                "Manokwari",
+                                "Medan",
+                                "Mojokerto",
+                                "Nganjuk",
+                                "Ngawi",
+                                "Padang",
+                                "Palangkaraya",
+                                "Palembang",
+                                "Palopo",
+                                "Palu",
+                                "Pangkal Pinang",
+                                "Pasuruan",
+                                "Pati",
+                                "Pekalongan",
+                                "Pekanbaru",
+                                "Pematang Siantar",
+                                "Ponorogo",
+                                "Pontianak",
+                                "Poso",
+                                "Prabumulih",
+                                "Probolinggo",
+                                "Purbalingga",
+                                "Purwakarta",
+                                "Purwokerto",
+                                "Salatiga",
+                                "Samarinda",
+                                "Sampit",
+                                "Semarang",
+                                "Serang",
+                                "Sidoarjo",
+                                "Singkawang",
+                                "Solo",
+                                "Sorong",
+                                "Subang",
+                                "Sukabumi",
+                                "Sumenep",
+                                "Surabaya",
+                                "Tangerang",
+                                "Tanjung Pinang",
+                                "Tasikmalaya",
+                                "Tegal",
+                                "Temanggung",
+                                "Ternate",
+                                "Trenggalek",
+                                "Tuban",
+                                "Tulungagung",
+                                "Wajo",
+                                "Yogyakarta"
+                            ],
+                            "default": "available"
+                        }
+                    }
+                ],
+                "responses": {},
+                "security": []
+            }
+        },
+        "/image/bgremove": {
+            "post": {
+                "tags": [
+                    "image"
+                ],
+                "summary": "Remove Background from your uploaded image (file cached will be removed in 30 minutes)",
+                "description": "",
+                "operationId": "uploadFile",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "file to upload",
+                        "required": false,
+                        "type": "file"
+                    }
+                ],
+                "responses": {},
+                "security": []
             }
         }
     },
-    "securityDefinitions": {
-       
-    },
-    "definitions": {
-      
-    },
+    "securityDefinitions": {},
+    "definitions": {},
     "externalDocs": {
         "description": "Find out more about UGAPIDocs",
         "url": "https://github.com/UserGhost411/UGAPIDocs"

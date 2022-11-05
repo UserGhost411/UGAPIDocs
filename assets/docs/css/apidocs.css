@@ -127,6 +127,9 @@ html {
     font-size: .870rem;
     line-height: 1.2;
     border-radius: .2rem;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    right: 11px;
 }
 
 .ajaxloader {
